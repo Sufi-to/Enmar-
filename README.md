@@ -1,0 +1,1 @@
+Brev just install whatever is in the requirements file and do your thing. I have done the models at least the ones we need the most u will need to setup mysql database on your server and adjust the settings file accordingly
