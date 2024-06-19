@@ -1,0 +1,17 @@
+{% extends 'learningPlatform/base.html' %}
+
+{% block title %}Course Detail{% endblock %}
+
+{% block content %}
+<h1>{{ course.title }}</h1>
+<p>{{ course.description }}</p>
+<p>Instructor: {{ course.instructor.username }}</p>
+<a href="{% url 'enroll_course' course.pk %}">Enroll in this course</a>
+<h2>Lessons</h2>
+<ul>
+    {% for lesson in course.lessons.all %}
+        <li><a href="{% url 'lesson_detail' course.pk lesson.pk %}">{{ lesson.title }}</a></li>
+    {% endfor %}
+</ul>
+{% endblock %}
+
