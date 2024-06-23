@@ -7,7 +7,7 @@ from .models import User, Course, Lesson, Enrollment
 class UserAdmin(BaseUserAdmin):
     fieldsets = (
         (None, {'fields': ('username', 'password')}),
-        ('Personal info', {'fields': ('first_name', 'last_name', 'email', 'bio', 'profile_picture')}),
+        ('Personal info', {'fields': ('first_name', 'last_name', 'email', 'bio')}),
         ('Permissions', {'fields': ('is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions')}),
         ('Status', {'fields': ('is_learner', 'is_instructor', 'is_admin')}),
         ('Important dates', {'fields': ('last_login', 'date_joined')}),

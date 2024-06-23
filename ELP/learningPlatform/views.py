@@ -3,8 +3,10 @@ from django.views.generic import ListView, DetailView
 from .models import Course, Lesson, Enrollment
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth import login as auth_login
+from django.contrib.auth import logout
 from django.contrib.auth.mixins import LoginRequiredMixin
+from .forms import UserRegisterForm
+from django.contrib import messages
 
 def home(request):
     # Implement your home view logic here
@@ -69,11 +71,17 @@ class EnrollmentDetailView(LoginRequiredMixin, DetailView):
 
 def register(request):
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
+        form = UserRegisterForm(request.POST)
         if form.is_valid():
-            user = form.save()
-            auth_login(request, user)
-            return redirect('home')
+            form.save()
+            username = form.cleaned_data.get('username')
+            messages.success(request, f'Account created for {username}!')
+            return redirect('login')
     else:
-        form = UserCreationForm()
+        form = UserRegisterForm()
     return render(request, 'learningPlatform/register.html', {'form': form})
+
+
+def logout_view(request):
+    logout(request)
+    return render(request, 'learningPlatform/logout.html')
