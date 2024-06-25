@@ -1,3 +1,5 @@
+import os
+
 """
 Django settings for ELP project.
 
@@ -14,6 +16,7 @@ from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+# BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
 # Quick-start development settings - unsuitable for production
@@ -54,9 +57,19 @@ ROOT_URLCONF = 'ELP.urls'
 
 TEMPLATES = [
     {
+        # 'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        # 'DIRS': [],
+        # 'APP_DIRS': True,
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'learningPlatform', 'templates')],
         'APP_DIRS': True,
+
+        # 'DIRS': [os.path.join(BASE_DIR, 'templates')],
+
+        # 'DIRS': [
+        #     os.path.join(BASE_DIR, 'learningPlatform', 'templates'),  # Adjust this path
+        # ],
+        # 'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.debug',
@@ -79,7 +92,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'ELP',
         'USER': 'root',
-        'PASSWORD': 'password',
+        'PASSWORD': 'root',
         'HOST': 'localhost',
         'PORT': '3306',
     }
@@ -120,7 +133,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field

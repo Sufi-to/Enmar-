@@ -3,11 +3,25 @@
 {% block title %}Courses{% endblock %}
 
 {% block content %}
-<h1>Courses</h1>
-<ul>
-    {% for course in courses %}
-        <li><a href="{% url 'course_detail' course.pk %}">{{ course.title }}</a></li>
-    {% endfor %}
-</ul>
+<section class="courses">
+    <div class="container">
+        <div class="row">
+            {% for course in courses %}
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="card h-100">
+                    <img class="card-img-top" src="{% static 'courses/enmar_background_image_1.jpeg' %}" alt="Course Image">
+                    <div class="card-body">
+                        <h2 class="card-title">{{ course.title }}</h2>
+                        <p class="card-text">{{ course.description }}</p>
+                    </div>
+                    <div class="card-footer">
+                        <a href="{% url 'course_detail' course.pk %}" class="btn btn-primary">View Details</a>
+                        <a href="{% url 'enroll_course' course.pk %}" class="btn btn-outline-primary">Enroll Now</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
 {% endblock %}
-

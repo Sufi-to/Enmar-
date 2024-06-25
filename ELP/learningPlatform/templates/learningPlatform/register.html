@@ -1,5 +1,5 @@
 {% extends 'learningPlatform/base.html' %}
-
+{% load static %}
 {% block title %}Register{% endblock %}
 
 {% block content %}
@@ -12,3 +12,6 @@
 <p>Already have an account? <a href="{% url 'login' %}">Login here</a></p>
 {% endblock %}
 
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'registerStyle.css' %}">
+{% endblock %}
