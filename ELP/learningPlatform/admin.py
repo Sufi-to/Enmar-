@@ -3,6 +3,7 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from .models import User, Course, Lesson, Enrollment
+from .forms import CourseForm, EnrollmentForm
 
 class UserAdmin(BaseUserAdmin):
     fieldsets = (
@@ -23,6 +24,7 @@ class UserAdmin(BaseUserAdmin):
     ordering = ('username',)
 
 class CourseAdmin(admin.ModelAdmin):
+    form = CourseForm
     list_display = ('title', 'instructor', 'created_at', 'updated_at')
     search_fields = ('title', 'description', 'instructor__username', 'instructor__email')
     list_filter = ('created_at', 'updated_at')
@@ -33,6 +35,7 @@ class LessonAdmin(admin.ModelAdmin):
     list_filter = ('created_at', 'updated_at')
 
 class EnrollmentAdmin(admin.ModelAdmin):
+    form = EnrollmentForm
     list_display = ('learner', 'course', 'enrolled_at')
     search_fields = ('learner__username', 'learner__email', 'course__title')
     list_filter = ('enrolled_at',)
