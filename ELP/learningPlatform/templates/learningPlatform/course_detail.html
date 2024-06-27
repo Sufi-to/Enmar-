@@ -1,17 +1,41 @@
 {% extends 'learningPlatform/base.html' %}
+{% load static %}
 
-{% block title %}Course Detail{% endblock %}
+{% block title %}Course Detail - {{ course.title }}{% endblock %}
 
-{% block content %}
-<h1>{{ course.title }}</h1>
-<p>{{ course.description }}</p>
-<p>Instructor: {{ course.instructor.username }}</p>
-<a href="{% url 'enroll_course' course.pk %}">Enroll in this course</a>
-<h2>Lessons</h2>
-<ul>
-    {% for lesson in course.lessons.all %}
-        <li><a href="{% url 'lesson_detail' course.pk lesson.pk %}">{{ lesson.title }}</a></li>
-    {% endfor %}
-</ul>
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'course_detail.css' %}">
 {% endblock %}
 
+
+{% block nav %}
+<!-- Override the nav block to remove navigation links -->
+{% endblock %}
+
+{% block content %}
+<header>
+    <nav class="navigation">
+        <a href="{% url 'home' %}" class="nav-btn">Home</a>
+        <a href="{% url 'logout' %}" class="nav-btn">Logout</a>
+    </nav>
+</header>
+
+<section class="course-detail">
+    <div class="container">
+        <div class="course-header">
+            <h1>{{ course.title }}</h1>
+            <p>{{ course.description }}</p>
+            <p>Instructor: {{ course.instructor.username }}</p>
+            <a href="{% url 'enroll_course' course.pk %}" class="enroll-btn">Enroll in this course</a>
+        </div>
+        <div class="lessons-section">
+            <h2>Lessons</h2>
+            <ul class="lessons-list">
+                {% for lesson in course.lessons.all %}
+                <li><a href="{% url 'lesson_detail' course.pk lesson.pk %}">{{ lesson.title }}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</section>
+{% endblock %}

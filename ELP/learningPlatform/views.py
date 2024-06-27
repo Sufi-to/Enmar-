@@ -85,7 +85,7 @@ def register(request):
 
 def logout_view(request):
     logout(request)
-    return render(request, 'learningPlatform/logout.html')
+    return render(request, 'learningPlatform/logout.html', {'user': request.user})
 
 # def custom_login(request):
 #     if request.method == 'POST':
@@ -164,14 +164,35 @@ def add_course(request):
     if request.method == 'POST':
         form = CourseForm(request.POST, request.FILES)
         if form.is_valid():
-            form.save()
+            course = form.save(commit=False)
+            course.instructor = request.user
+            course.save()
             messages.success(request, 'Course created successfully!')
             return redirect('instructor_dashboard')
         else:
+            print(form.errors)  # Print form errors to the console
             messages.error(request, 'Error creating course. Please check the form and try again.')
     else:
         form = CourseForm()
     return render(request, 'learningPlatform/add_course.html', {'form': form})
+
+# def add_course(request):
+#     instructor = request.user  # Assuming user is authenticated
+#     if request.method == 'POST':
+#         form = CourseForm(request.POST)
+#         if form.is_valid():
+#             # Process form data
+#             form.save()
+#             # Redirect or return a success response
+#     else:
+#         form = CourseForm()
+
+#     context = {
+#         'form': form,
+#         'instructor': instructor,
+#     }
+#     return render(request, 'learningPlatform/add_course.html', context)
+
 
 @login_required
 def add_lesson(request):

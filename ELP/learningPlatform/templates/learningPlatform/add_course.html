@@ -30,7 +30,7 @@
         <h1>Create your course, {{ user.username }}</h1>
         <p class="info-text">Unleash your knowledge and design a course for your students</p>
 
-        <form method="post" action="{% url 'add_course' %}" enctype="multipart/form-data" class="course-form">
+        <form method="post" action="{% url 'add_course' %}" class="course-form">
             {% csrf_token %}
             <div class="form-group">
                 <label for="title">Course Title (Max 100 Characters)</label>
@@ -40,32 +40,6 @@
                 <label for="description">Course Description</label>
                 <textarea id="description" name="description" rows="10" required></textarea>
                 <p class="info-text">Craft an engaging narrative to entice students!</p>
-            </div>
-            <div class="form-group">
-                <label for="category">Course Category</label>
-                <select id="category" name="category">
-                    <option value="programming">Programming</option>
-                    <option value="design">Design</option>
-                    <option value="data_science">Data Science</option>
-                    <option value="other">Other</option>
-                </select>
-            </div>
-            <div class="additional-details">
-                <div class="detail-section">
-                    <label for="target_audience">Target Audience (Optional)</label>
-                    <input type="text" id="target_audience" name="target_audience">
-                    <p class="info-text">Who are you guiding on this cosmic learning journey?</p>
-                </div>
-                <div class="detail-section">
-                    <label for="estimated_time">Estimated Learning Time (Optional)</label>
-                    <input type="text" id="estimated_time" name="estimated_time">
-                    <p class="info-text">Give your students a sense of the time commitment required.</p>
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="thumbnail">Course Thumbnail (Optional)</label>
-                <input type="file" id="thumbnail" name="thumbnail">
-                <p class="info-text">Upload a captivating image to visually represent your course.</p>
             </div>
             <button type="submit" class="btn btn-primary">Launch Your Course!</button>
         </form>

@@ -1,29 +1,58 @@
 {% extends 'learningPlatform/base.html' %}
-
 {% load static %}
 
 {% block title %}Courses{% endblock %}
 
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'course_list.css' %}">
+{% endblock %}
+
 {% block content %}
+<header>
+    <div class="header-container">
+        <a href="{% url 'home' %}" class="logo-link">
+            <img src="{% static 'enmar_logo.jpeg' %}" alt="Enmar Logo" class="enmar-logo">
+        </a>
+        <div class="navigation">
+            <a href="{% url 'home' %}" class="nav-btn">Home</a>
+            <a href="{% url 'logout' %}" class="nav-btn">Logout</a>
+        </div>
+        <div class="profile">
+            <img src="{% static 'profile_placeholder.png' %}" alt="Student Profile" class="profile-pic">
+            <span>{{ user.username }}</span>
+        </div>
+    </div>
+</header>
+
 <section class="courses">
-    <div class="container">
-        <div class="row">
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <h3>Explore</h3>
+        </div>
+        <div class="sidebar-buttons">
+            <a href="#" class="sidebar-btn">My Courses</a>
+            <a href="#" class="sidebar-btn">Enroll Now</a>
+            <a href="#" class="sidebar-btn">Certificates</a>
+            <a href="#" class="sidebar-btn">Progress</a>
+            <a href="#" class="sidebar-btn">Resources</a>
+        </div>
+    </div>
+    <div class="main-content">
+        <div class="card-columns">
             {% for course in courses %}
-            <div class="col-lg-4 col-md-6 mb-4">
-                <div class="card h-100">
-                    <img class="card-img-top" src="{% static 'courses/enmar_background_image_1.jpeg' %}" alt="Course Image">
-                    <div class="card-body">
-                        <h2 class="card-title">{{ course.title }}</h2>
-                        <p class="card-text">{{ course.description }}</p>
-                    </div>
-                    <div class="card-footer">
-                        <a href="{% url 'course_detail' course.pk %}" class="btn btn-primary">View Details</a>
-                        {% if course.pk in enrollments %}
-                            <button class="btn btn-secondary" disabled>Already Enrolled</button>
-                        {% else %}
-                            <a href="{% url 'enroll_course' course.pk %}" class="btn btn-outline-primary">Enroll Now</a>
-                        {% endif %}
-                    </div>
+            <div class="card mb-4">
+                <img class="card-img-top" src="{% static 'courses/enmar_background_image_1.jpeg' %}" alt="Course Image">
+                <div class="card-body">
+                    <h2 class="card-title">{{ course.title }}</h2>
+                    <p class="card-text">{{ course.description }}</p>
+                </div>
+                <div class="card-footer">
+                    <a href="{% url 'course_detail' course.pk %}" class="btn btn-primary">View Details</a>
+                    {% if course.pk in enrollments %}
+                        <button class="btn btn-secondary" disabled>Already Enrolled</button>
+                    {% else %}
+                        <a href="{% url 'enroll_course' course.pk %}" class="btn btn-outline-primary">Enroll Now</a>
+                    {% endif %}
                 </div>
             </div>
             {% endfor %}

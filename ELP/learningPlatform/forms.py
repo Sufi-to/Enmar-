@@ -24,6 +24,7 @@ class CourseForm(forms.ModelForm):
     class Meta:
         model = Course
         fields = '__all__'
+        # fields = ['title', 'description', 'category', 'instructor', 'target_audience', 'estimated_time', 'thumbnail']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

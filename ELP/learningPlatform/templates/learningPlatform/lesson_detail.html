@@ -1,12 +1,36 @@
 {% extends 'learningPlatform/base.html' %}
+{% load static %}
+{% load custom_filters %}
 
-{% block title %}Lesson Detail{% endblock %}
+{% block title %}Lesson Detail - {{ lesson.title }}{% endblock %}
 
-{% block content %}
-<h1>{{ lesson.title }}</h1>
-<p>{{ lesson.content }}</p>
-{% if lesson.video_url %}
-    <p>Video: <a href="{{ lesson.video_url }}">{{ lesson.video_url }}</a></p>
-{% endif %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'lesson_detail.css' %}">
 {% endblock %}
 
+{% block content %}
+<header>
+    <nav class="navigation">
+        <a href="{% url 'home' %}" class="nav-btn">Home</a>
+        <a href="{% url 'logout' %}" class="nav-btn">Logout</a>
+    </nav>
+</header>
+
+<section class="lesson-detail">
+    <div class="container">
+        <div class="lesson-header">
+            <h1>{{ lesson.title }}</h1>
+            <p>{{ lesson.content }}</p>
+            {% if lesson.video_url %}
+                <div class="video-container">
+                    <iframe width="560" height="315" src="{{ lesson.video_url|youtube_embed_url }}" frameborder="0" allowfullscreen></iframe>
+                </div>
+            {% endif %}
+        </div>
+        <div class="lesson-actions">
+
+            <a href="#" class="action-btn">Download Materials</a>
+        </div>
+    </div>
+</section>
+{% endblock %}
