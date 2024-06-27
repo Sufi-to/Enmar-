@@ -2,7 +2,7 @@
 
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
-from .models import User, Course, Lesson, Enrollment
+from .models import User, Course, Lesson, Enrollment, Profile
 from .forms import CourseForm, EnrollmentForm
 
 class UserAdmin(BaseUserAdmin):
@@ -44,3 +44,4 @@ admin.site.register(User, UserAdmin)
 admin.site.register(Course, CourseAdmin)
 admin.site.register(Lesson, LessonAdmin)
 admin.site.register(Enrollment, EnrollmentAdmin)
+admin.site.register(Profile)
