@@ -1,5 +1,7 @@
 {% extends 'learningPlatform/base.html' %}
 
+{% load static %}
+
 {% block title %}Courses{% endblock %}
 
 {% block content %}
@@ -16,7 +18,11 @@
                     </div>
                     <div class="card-footer">
                         <a href="{% url 'course_detail' course.pk %}" class="btn btn-primary">View Details</a>
-                        <a href="{% url 'enroll_course' course.pk %}" class="btn btn-outline-primary">Enroll Now</a>
+                        {% if course.pk in enrollments %}
+                            <button class="btn btn-secondary" disabled>Already Enrolled</button>
+                        {% else %}
+                            <a href="{% url 'enroll_course' course.pk %}" class="btn btn-outline-primary">Enroll Now</a>
+                        {% endif %}
                     </div>
                 </div>
             </div>

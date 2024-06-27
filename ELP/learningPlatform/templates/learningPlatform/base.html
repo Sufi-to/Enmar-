@@ -11,6 +11,7 @@
     <link rel="icon" href="{% static 'enmar_logo.jpeg' %}" type="image/x-icon">
 </head>
 <body>
+    {% block nav %}
     <nav>
         <ul>
             <li><a href="{% url 'home' %}">Home</a></li>
@@ -22,6 +23,7 @@
             {% endif %}
         </ul>
     </nav>
+    {% endblock %}
     {% block content %}{% endblock %}
     <footer>
         <div class="footer-content">

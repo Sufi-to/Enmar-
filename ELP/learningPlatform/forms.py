@@ -5,9 +5,15 @@ from django.core.exceptions import ValidationError
 from .models import Profile
 
 
+
+class CustomPasswordInput(forms.PasswordInput):
+    def render(self, name, value, attrs=None, renderer=None):
+        return super().render(name, value, attrs=attrs, renderer=renderer).replace('type="password"', 'type="text"')
+
 class UserRegisterForm(UserCreationForm):
     email = forms.EmailField(required=True)
     bio = forms.CharField(widget=forms.Textarea, required=False)
+    
 
     class Meta:
         model = User
@@ -32,3 +38,4 @@ class EnrollmentForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['learner'].queryset = User.objects.filter(is_learner=True)
+

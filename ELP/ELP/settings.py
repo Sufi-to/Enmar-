@@ -55,6 +55,8 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'ELP.urls'
 
+# LOGIN_REDIRECT_URL = 'course_list'
+
 TEMPLATES = [
     {
         # 'BACKEND': 'django.template.backends.django.DjangoTemplates',

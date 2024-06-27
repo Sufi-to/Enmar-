@@ -1,0 +1,154 @@
+body {
+    background-size: cover;
+    color: #fff;
+    font-family: 'Poppins', sans-serif;
+}
+
+.dashboard {
+    padding: 4rem;
+}
+
+.container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+.dashboard-left, .dashboard-right {
+    flex: 1;
+    padding: 2rem;
+}
+
+.instructor-profile {
+    display: flex;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.profile-picture {
+    width: 100px;
+    height: 100px;
+    overflow: hidden;
+    border-radius: 50%;
+    margin-right: 1rem;
+    position: relative; /* For status indicator */
+}
+
+.profile-picture img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.profile-picture .status-indicator {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #e74c3c; /* Red for online status */
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+}
+
+.instructor-details {
+    flex: 1;
+}
+
+.instructor-bio {
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+}
+
+.dashboard-section {
+    margin-bottom: 2rem;
+}
+
+.course-list {
+    list-style: none;
+    padding: 0;
+}
+
+.course-list li {
+    background: rgba(0, 0, 0, 0.7);
+    padding: 1rem;
+    margin: 0.5rem 0;
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.course-list li a {
+    color: #fff;
+    text-decoration: none;
+}
+
+.course-list li .course-status {
+    color: #3aa75e; /* Green for active status */
+    font-weight: bold;
+}
+
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+.form-group input, .form-group select {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: none;
+    border-radius: 4px;
+    background: rgba(0, 0, 0, 0.5);
+    color: #fff;
+}
+
+.btn {
+    display: inline-block;
+    padding: 1rem 2rem;
+    border: none;
+    border-radius: 4px;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.btn:hover {
+    background-color: #3aa75e; /* Green on hover */
+}
+
+.btn-primary {
+    background-color: #a950cf; /* Purple for primary button */
+    color: #fff;
+}
+
+.btn-secondary {
+    background-color: #333;
+    color: #fff;
+}
+
+.btn-tertiary {
+    background-color: rgba(0, 0, 0, 0.7); /* Darker grey for tertiary button */
+    color: #fff;
+}
+
+.action-list {
+    padding: 0;
+    list-style: none;
+}
+
+.action-list li {
+    margin-bottom: 1rem;
+}
+
+.info-text {
+    color: #ddd;
+    font-size: 0.8rem;
+}
+    
