@@ -7,6 +7,10 @@
 <link rel="stylesheet" href="{% static 'course_list.css' %}">
 {% endblock %}
 
+{% block extra_js %}
+<script src="{% static 'course_enrollment.js' %}"></script>
+{% endblock %}
+
 {% block content %}
 <header>
     <div class="header-container">
@@ -41,7 +45,7 @@
         <div class="card-columns">
             {% for course in courses %}
             <div class="card mb-4">
-                <img class="card-img-top" src="{% static 'courses/enmar_background_image_1.jpeg' %}" alt="Course Image">
+                <img class="card-img-top" src="{% static 'instructor_background.jpg' %}" alt="Course Image">
                 <div class="card-body">
                     <h2 class="card-title">{{ course.title }}</h2>
                     <p class="card-text">{{ course.description }}</p>
@@ -51,7 +55,7 @@
                     {% if course.pk in enrollments %}
                         <button class="btn btn-secondary" disabled>Already Enrolled</button>
                     {% else %}
-                        <a href="{% url 'enroll_course' course.pk %}" class="btn btn-outline-primary">Enroll Now</a>
+                        <a href="{% url 'enroll_course' course.pk %}" class="btn btn-outline-primary btn-enroll" data-course-id="{{ course.pk }}">Enroll Now</a>
                     {% endif %}
                 </div>
             </div>

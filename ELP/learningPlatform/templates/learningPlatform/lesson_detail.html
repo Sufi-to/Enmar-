@@ -8,6 +8,10 @@
 <link rel="stylesheet" href="{% static 'lesson_detail.css' %}">
 {% endblock %}
 
+{% block nav %}
+<!-- Override the nav block to remove navigation links -->
+{% endblock %}
+
 {% block content %}
 <header>
     <nav class="navigation">
@@ -18,18 +22,28 @@
 
 <section class="lesson-detail">
     <div class="container">
-        <div class="lesson-header">
-            <h1>{{ lesson.title }}</h1>
-            <p>{{ lesson.content }}</p>
-            {% if lesson.video_url %}
-                <div class="video-container">
-                    <iframe width="560" height="315" src="{{ lesson.video_url|youtube_embed_url }}" frameborder="0" allowfullscreen></iframe>
+        <div class="lesson-content">
+            <div class="lesson-header">
+                <h1>{{ lesson.title }}</h1>
+                <div class="lesson-description">
+                    <p>{{ lesson.content }}</p>
                 </div>
+            </div>
+            {% if lesson.video_url %}
+            <div class="video-container">
+                <iframe width="560" height="315" src="{{ lesson.video_url|youtube_embed_url }}" frameborder="0" allowfullscreen></iframe>
+            </div>
             {% endif %}
+            <div class="lesson-actions">
+                <a href="#" class="action-btn">Download Materials</a>
+                <a href="{% url 'next_lesson' course.pk lesson.pk %}" class="action-btn next">Next Lesson</a>
+            </div>
         </div>
-        <div class="lesson-actions">
-
-            <a href="#" class="action-btn">Download Materials</a>
+        <div class="lesson-sidebar">
+            <div class="lesson-description">
+                <h2>Lesson Description</h2>
+                <p>{{ lesson.description }}</p>
+            </div>
         </div>
     </div>
 </section>

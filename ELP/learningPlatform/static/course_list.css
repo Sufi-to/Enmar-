@@ -48,11 +48,10 @@ header {
 .navigation {
     display: flex;
     align-items: center;
-    margin-left: 40em;
+    margin-left: 80em;
 }
 
 .nav-btn {
-    margin-left: 1rem;
     padding: 0.5rem 1rem;
     border-radius: 4px;
     background-color: #a950cf;
@@ -87,7 +86,7 @@ header {
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
     position: fixed;
     top: 60px;
-    bottom: 0;
+    bottom: 20rem;
     left: 0;
     overflow-y: auto;
     z-index: 999;
@@ -128,7 +127,7 @@ header {
 }
 
 .card-columns {
-    column-count: 3;
+    /* column-count: 3; */
     column-gap: 1.5rem;
 }
 
@@ -138,10 +137,13 @@ header {
     border-radius: 10px;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
     overflow: hidden;
+    display: inline-block; /* Make sure the cards are inline elements */
+    margin-bottom: 1.5rem; /* Space between rows of cards */
+    width: 100%; 
 }
 
 .card-img-top {
-    max-height: 200px;
+    max-height: 100px;
     object-fit: cover;
 }
 

@@ -1,9 +1,9 @@
 body {
-    background: linear-gradient(to right, #4e54c8, #8f94fb);
-    color: #fff;
+    background: #121212;
+    color: #e0e0e0;
     font-family: 'Poppins', sans-serif;
-    margin: 0; /* Remove default margin */
-    padding-top: 60px; /* Ensure header does not overlap content */
+    margin: 0;
+    padding-top: 60px;
 }
 
 header {
@@ -12,11 +12,11 @@ header {
     left: 0;
     width: 100%;
     display: flex;
-    justify-content: flex-end; /* Align navigation to the right */
+    justify-content: flex-end;
     align-items: center;
     padding: 1rem 2rem;
-    background: rgba(17, 17, 17, 0.8); /* Dark background with transparency */
-    z-index: 1000; /* Ensure header is above other content */
+    background: rgba(0, 0, 0, 0.9);
+    z-index: 1000;
 }
 
 .navigation {
@@ -28,14 +28,14 @@ header {
     margin-left: 1rem;
     padding: 0.5rem 1rem;
     border-radius: 4px;
-    background: #a950cf;
+    background: #8e44be;
     color: #fff;
     text-decoration: none;
     transition: background 0.3s ease;
 }
 
 .nav-btn:hover {
-    background: #8e44be;
+    background: #a950cf;
 }
 
 .container {
@@ -47,11 +47,13 @@ header {
 .course-header {
     text-align: center;
     margin-bottom: 2rem;
+    color: #a950cf;
 }
 
 .course-header h1 {
     font-size: 3rem;
     margin-bottom: 1rem;
+    color: #fff;
 }
 
 .course-header p {
@@ -62,7 +64,7 @@ header {
 .enroll-btn {
     display: inline-block;
     padding: 1rem 2rem;
-    background-color: #a950cf;
+    background-color: #8e44be;
     color: #fff;
     text-decoration: none;
     border-radius: 4px;
@@ -70,11 +72,11 @@ header {
 }
 
 .enroll-btn:hover {
-    background-color: #8e44be;
+    background-color: #a950cf;
 }
 
 .lessons-section {
-    background: rgba(0, 0, 0, 0.7);
+    background: rgba(0, 0, 0, 0.8);
     border-radius: 10px;
     padding: 2rem;
     margin-top: 2rem;
@@ -103,5 +105,5 @@ header {
 }
 
 .lessons-list a:hover {
-    color: #8e44be;
+    color: #a950cf;
 }

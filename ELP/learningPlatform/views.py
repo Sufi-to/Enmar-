@@ -8,6 +8,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from .forms import UserRegisterForm, CourseForm
 from django.contrib import messages
 from django.contrib.auth.forms import AuthenticationForm
+from django.shortcuts import get_object_or_404, redirect
 
 def home(request):
     # Implement your home view logic here
@@ -25,10 +26,20 @@ class CourseDetailView(DetailView):
     context_object_name = 'course'
 
 
-class LessonDetailView(LoginRequiredMixin, DetailView):
+# class LessonDetailView(LoginRequiredMixin, DetailView):
+#     model = Lesson
+#     template_name = 'learningPlatform/lesson_detail.html'
+#     context_object_name = 'lesson'
+
+class LessonDetailView(DetailView):
     model = Lesson
     template_name = 'learningPlatform/lesson_detail.html'
     context_object_name = 'lesson'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['course'] = self.object.course  # Assuming Lesson model has a 'course' ForeignKey
+        return context
 
 @login_required
 def enroll_course(request, pk):
@@ -208,3 +219,13 @@ def add_lesson(request):
     
     courses = Course.objects.filter(instructor=request.user)
     return render(request, 'learningPlatform/add_lesson.html', {'courses': courses})
+
+
+def next_lesson(request, course_id, lesson_id):
+    current_lesson = get_object_or_404(Lesson, id=lesson_id, course_id=course_id)
+    next_lessons = Lesson.objects.filter(course_id=course_id, id__gt=current_lesson.id).order_by('id')
+    if next_lessons.exists():
+        next_lesson = next_lessons.first()
+        return redirect('lesson_detail', pk=course_id, lesson_id=next_lesson.id)
+    else:
+        return redirect('course_detail', pk=course_id)
