@@ -10,17 +10,18 @@
     <div class="logo"><img src="{% static 'enmar_logo.jpeg' %}" alt="Enmar Logo"></div>
     <nav>
         <ul>
-            <li><a href="#features">Features</a></li>
-            <li><a href="#testimonials">Testimonials</a></li>
-            <li><a href="#about">About Us</a></li>
-            <li><a href="#faq">FAQ</a></li>
             {% if not user.is_authenticated %}
+                <li><a href="#features">Features</a></li>
+                <li><a href="#testimonials">Testimonials</a></li>
+                <li><a href="#about">About Us</a></li>
+                <li><a href="#faq">FAQ</a></li>
                 <li><a href="{% url 'register' %}" class="register-btn">Register</a></li>
                 <li><a href="{% url 'login' %}" class="login-btn">Login</a></li>
             {% else %}
+                <li> {{user.username}}</li>
                 <li><a href="{% url 'logout' %}" class="logout-btn">Logout</a></li>
             {% endif %}
-            <!-- <li> {{user.username}}</li> -->
+            
         </ul>
     </nav>
 </header>
