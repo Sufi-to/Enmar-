@@ -6,7 +6,22 @@
 <link rel="stylesheet" href="{% static 'instructor_dashboard.css' %}">
 {% endblock %}
 
+{% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script src="{% static 'markdown_support.js' %}"></script>
+{% endblock %}
+
 {% block nav %}
+<header>
+    <div class="logo">
+        <img src="{% static 'enmar_logo.jpeg' %}" alt="Enmar Logo">
+    </div>
+    <nav class="navigation">
+        <a href="{% url 'home' %}" class="nav-btn">Home</a>
+        <a href="{% url 'logout' %}" class="nav-btn">Logout</a>
+        <a href="{% url 'profile' %}" class="nav-btn">{{ user.username }}</a>
+    </nav>
+</header>
 {% endblock %}
 
 {% block content %}
@@ -15,22 +30,22 @@
         <div class="dashboard-left">
             <div class="instructor-profile">
                 <div class="profile-picture">
-                    <img src="{% static 'profile_placeholder.jpg' %}" alt="Profile Picture">
+                    <img src="{{ user.profile.image.url }}" alt="Profile Picture">
                     <div class="status-indicator online"></div>
                 </div>
                 <div class="instructor-details">
                     <h1>Welcome Back, {{ user.username }}</h1>
-                    <p class="instructor-bio"> {{user.bio}}</p>
-                    <button class="btn btn-primary">Edit Profile</button>
-                    <button class="btn btn-secondary">Change Password</button>
+                    <p class="instructor-bio">{{ user.bio }}</p>
+                    <a href="{% url 'profile' %}" class="btn btn-primary">Edit Profile</a>
+                    <a href="{% url 'change_password' %}" class="btn btn-secondary">Change Password</a>
                 </div>
             </div>
 
-            <div class="dashboard-section">
+            <div class="dashboard-section course-management">
                 <h2>Course Management</h2>
                 <ul class="action-list">
                     <li><a href="{% url 'add_course' %}" class="btn btn-tertiary">Create New Course</a></li>
-
+                    <li><a href="{% url 'delete_course' %}" class="btn btn-danger">Delete Course</a></li>
                 </ul>
             </div>
         </div>
@@ -72,6 +87,7 @@
                         <label for="description">Lesson Description (Markdown Supported)</label>
                         <textarea id="description" name="description" rows="8"></textarea>
                         <p class="info-text">Use Markdown for formatting text, adding images, and more!</p>
+                        <div id="markdown-preview" class="markdown-preview"></div>
                     </div>
                     <div class="form-group">
                         <label for="resources">Upload Additional Resources (Optional)</label>

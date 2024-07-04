@@ -3,6 +3,7 @@ from django.contrib.auth.models import AbstractUser
 from PIL import Image
 from django.core.exceptions import ValidationError
 from django.contrib.auth.models import User
+# from .models import Lesson
 
 
 class User(AbstractUser):
@@ -13,27 +14,6 @@ class User(AbstractUser):
 
     def __str__(self):
         return self.username
-    
- 
- 
-  
-class Profile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    image = models.ImageField(default='default.jpg', upload_to='profile_pics')
-    
-    def __str__(self):
-        return f'{self.user.username} Profile'
-    
-    def save(self):
-        super().save()
-        
-        img = Image.open(self.image.path)
-        
-        if img.height > 300 or img.width > 300:
-            output_size = (300, 300 )
-            img.thumbnail(output_size)
-            img.save(self.image.path)
-
 
 
 # class Course(models.Model):
@@ -82,7 +62,7 @@ class Lesson(models.Model):
     video_url = models.URLField(blank=True, null=True, verbose_name="Video URL")
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="Creation Date")
     updated_at = models.DateTimeField(auto_now=True, verbose_name="Last Update Date")
-    
+    description = models.TextField(blank=True, null=True)
     def __str__(self):
         return f'{self.title} in {self.course.title}'
     
@@ -90,6 +70,24 @@ class Lesson(models.Model):
         ordering = ['created_at']
         verbose_name = "Lesson"
         verbose_name_plural = "Lessons"
+
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    image = models.ImageField(default='default.jpeg', upload_to='profile_pics')
+    completed_lessons = models.ManyToManyField(Lesson, related_name='completed_by', blank=True)
+    
+    def __str__(self):
+        return f'{self.user.username} Profile'
+    
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        
+        img = Image.open(self.image.path)
+        
+        if img.height > 300 or img.width > 300:
+            output_size = (300, 300)
+            img.thumbnail(output_size)
+            img.save(self.image.path)
 
 class Enrollment(models.Model):
     learner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='enrollments', verbose_name="Learner")
@@ -104,5 +102,11 @@ class Enrollment(models.Model):
         
     def __str__(self):
         return f'{self.learner.username} enrolled in {self.course.title}'
+    
+
+class UserLessonCompletion(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE)
+    completed_at = models.DateTimeField(auto_now_add=True)
     
 

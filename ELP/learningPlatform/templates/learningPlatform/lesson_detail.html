@@ -9,17 +9,15 @@
 {% endblock %}
 
 {% block nav %}
-<!-- Override the nav block to remove navigation links -->
-{% endblock %}
-
-{% block content %}
 <header>
     <nav class="navigation">
         <a href="{% url 'home' %}" class="nav-btn">Home</a>
         <a href="{% url 'logout' %}" class="nav-btn">Logout</a>
     </nav>
 </header>
+{% endblock %}
 
+{% block content %}
 <section class="lesson-detail">
     <div class="container">
         <div class="lesson-content">
@@ -35,16 +33,38 @@
             </div>
             {% endif %}
             <div class="lesson-actions">
-                <a href="#" class="action-btn">Download Materials</a>
+                <button type="button" class="action-btn complete-btn" id="mark-completed-btn">Mark as Completed</button>
                 <a href="{% url 'next_lesson' course.pk lesson.pk %}" class="action-btn next">Next Lesson</a>
             </div>
         </div>
         <div class="lesson-sidebar">
-            <div class="lesson-description">
-                <h2>Lesson Description</h2>
-                <p>{{ lesson.description }}</p>
-            </div>
+            <h2>Lesson Description</h2>
+            <p>{{ lesson.description }}</p>
         </div>
     </div>
 </section>
+
+<script>
+    document.getElementById('mark-completed-btn').addEventListener('click', function() {
+        const btn = this;
+        fetch("{% url 'mark_completed' lesson.pk %}", {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': '{{ csrf_token }}',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({})
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'completed') {
+                btn.innerHTML = '✓ Completed';
+                btn.disabled = true;
+                btn.classList.remove('complete-btn');
+                btn.classList.add('completed-btn');
+            }
+        })
+        .catch(error => console.error('Error:', error));
+    });
+</script>
 {% endblock %}
