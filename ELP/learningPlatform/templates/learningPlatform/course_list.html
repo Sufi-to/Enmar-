@@ -1,13 +1,121 @@
 {% extends 'learningPlatform/base.html' %}
+{% load static %}
 
 {% block title %}Courses{% endblock %}
 
-{% block content %}
-<h1>Courses</h1>
-<ul>
-    {% for course in courses %}
-        <li><a href="{% url 'course_detail' course.pk %}">{{ course.title }}</a></li>
-    {% endfor %}
-</ul>
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'course_list.css' %}">
 {% endblock %}
 
+{% block extra_js %}
+<script src="{% static 'course_enrollment.js' %}"></script>
+<script src="{% static 'search_courses.js' %}"></script>
+<script src="{% static 'progress_tracker.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+<header>
+    <div class="header-container">
+        <a href="{% url 'home' %}" class="logo-link">
+            <img src="{% static 'enmar_logo.jpeg' %}" alt="Enmar Logo" class="enmar-logo">
+        </a>
+        <div class="navigation-profile">
+            <div class="navigation">
+                <a href="{% url 'home' %}" class="nav-btn">Home</a>
+                <a href="{% url 'logout' %}" class="nav-btn">Logout</a>
+                <div class="profile">
+                    <img src="{% static 'profile_placeholder.png' %}" alt="Student Profile" class="profile-pic">
+                    <span>{{ user.username }}</span>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</header>
+
+<section class="courses">
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <h3>Explore</h3>
+        </div>
+        <div class="sidebar-explore">
+            <div class="explore-item">
+                <!-- <div class="explore-icon">
+                    <img src="{% static 'explore_icon1.png' %}" alt="Explore Icon">
+                </div> -->
+                <div class="explore-text">
+                    <h4>Interactive Modules</h4>
+                    <!-- <p>Engaging and interactive learning modules.</p> -->
+                </div>
+            </div>
+            <div class="explore-item">
+                <!-- <div class="explore-icon">
+                    <img src="{% static 'explore_icon2.png' %}" alt="Explore Icon">
+                </div> -->
+                <div class="explore-text">
+                    <h4>Live Webinars</h4>
+                    <!-- <p>Immersive VR experiences to enhance learning.</p> -->
+                </div>
+            </div>
+            <div class="explore-item">
+                <!-- <div class="explore-icon">
+                    <img src="{% static 'explore_icon3.png' %}" alt="Explore Icon">
+                </div> -->
+                <div class="explore-text">
+                    <h4>Other feature</h4>
+                    <!-- <p>AI-driven personalized learning paths.</p> -->
+                </div>
+            </div>
+            <div class="explore-item">
+                <!-- <div class="explore-icon">
+                    <img src="{% static 'explore_icon4.png' %}" alt="Explore Icon">
+                </div> -->
+                <div class="explore-text">
+                    <h4> Cant think of one right now</h4>
+                    <!-- <p>Game-like elements to make learning fun.</p> -->
+                </div>
+            </div>
+            <div class="explore-item">
+                <!-- <div class="explore-icon">
+                    <img src="{% static 'explore_icon5.png' %}" alt="Explore Icon">
+                </div> -->
+                <div class="explore-text">
+                    <h4>Collaborative Learning</h4>
+                    <!-- <p>Tools for collaborative projects and discussions.</p> -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="main-content">
+        <div class="search-container">
+            <form id="search-form">
+                <input type="text" id="search-input" placeholder="Search for courses..." />
+                <button type="submit" class="search-btn" id="custom-search-btn">Search</button>
+            </form>
+        </div>
+        <div class="card-columns">
+            {% for course in courses %}
+            <div class="card mb-4 course-card" style="background-image: url('{% static "instructor_background.jpg" %}');">
+                <div class="card-body">
+                    <h2 class="card-title">{{ course.title }}</h2>
+                    <p class="card-text">{{ course.description }}</p>
+                </div>
+                <div class="card-footer">
+                    <a href="{% url 'course_detail' course.pk %}" class="btn btn-primary">View Details</a>
+                    {% if course.pk in enrollments %}
+                        <button class="btn btn-secondary" disabled>Already Enrolled</button>
+                        <div class="progress-tracker">
+                            <div class="progress">
+                                <div class="progress-bar" role="progressbar" style="width: {{ course.progress }}%;" aria-valuenow="{{ course.progress }}" aria-valuemin="0" aria-valuemax="100">{{ course.progress }}%</div>
+                            </div>
+                        </div>
+                    {% else %}
+                        <a href="{% url 'enroll_course' course.pk %}" class="btn btn-outline-primary btn-enroll" data-course-id="{{ course.pk }}">Enroll Now</a>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}

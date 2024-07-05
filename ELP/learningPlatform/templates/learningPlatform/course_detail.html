@@ -1,17 +1,59 @@
 {% extends 'learningPlatform/base.html' %}
+{% load static %}
 
-{% block title %}Course Detail{% endblock %}
+{% block title %}Course Detail - {{ course.title }}{% endblock %}
 
-{% block content %}
-<h1>{{ course.title }}</h1>
-<p>{{ course.description }}</p>
-<p>Instructor: {{ course.instructor.username }}</p>
-<a href="{% url 'enroll_course' course.pk %}">Enroll in this course</a>
-<h2>Lessons</h2>
-<ul>
-    {% for lesson in course.lessons.all %}
-        <li><a href="{% url 'lesson_detail' course.pk lesson.pk %}">{{ lesson.title }}</a></li>
-    {% endfor %}
-</ul>
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'course_detail.css' %}">
 {% endblock %}
 
+{% block nav %}
+<header>
+    <nav class="navigation">
+        <a href="{% url 'home' %}" class="nav-logo">
+            <img src="{% static 'enmar_logo.jpeg' %}" alt="Enmar Logo" class="enmar-logo">
+        </a>
+        <div class="nav-links">
+            <a href="{% url 'home' %}" class="nav-btn">Home</a>
+            <a href="{% url 'logout' %}" class="nav-btn">Logout</a>
+        </div>
+    </nav>
+</header>
+{% endblock %}
+
+{% block content %}
+<section class="course-detail">
+    <div class="container">
+        <div class="course-header">
+            <h1>{{ course.title }}</h1>
+            <p>{{ course.description }}</p>
+            <p>Instructor: {{ course.instructor.username }}</p>
+            {% if is_enrolled %}
+                <a href="{% url 'unenroll_course' course.pk %}" class="enroll-btn">Unenroll from this course</a>
+            {% else %}
+                <a href="{% url 'enroll_course' course.pk %}" class="enroll-btn">Enroll in this course</a>
+            {% endif %}
+        </div>
+        <div class="progress-tracker">
+            <h2>Progress</h2>
+            <div class="progress">
+                <div class="progress-bar" role="progressbar" style="width: {{ progress }}%;" aria-valuenow="{{ progress }}" aria-valuemin="0" aria-valuemax="100">{{ progress }}%</div>
+            </div>
+        </div>
+        <div class="lessons-section">
+            <h2>Lessons</h2>
+            <ul class="lessons-list">
+                {% for lesson in course.lessons.all %}
+                <li><a href="{% url 'lesson_detail' course.pk lesson.pk %}">Lesson {{ forloop.counter }}: {{ lesson.title }}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% if progress == 100 %}
+        <div class="certificate-section">
+            <h2>Certificate</h2>
+            <a href="{% url 'get_certificate' course.pk %}" class="certificate-btn">Download Certificate</a>
+        </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

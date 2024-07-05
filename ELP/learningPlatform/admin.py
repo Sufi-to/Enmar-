@@ -40,6 +40,7 @@ class EnrollmentAdmin(admin.ModelAdmin):
     search_fields = ('learner__username', 'learner__email', 'course__title')
     list_filter = ('enrolled_at',)
 
+
 admin.site.register(User, UserAdmin)
 admin.site.register(Course, CourseAdmin)
 admin.site.register(Lesson, LessonAdmin)

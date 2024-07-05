@@ -1,0 +1,17 @@
+{% extends 'learningPlatform/base.html' %}
+
+{% block title %}{{ course.title }} - Enrolled Students{% endblock %}
+
+{% block content %}
+<section class="course-students">
+    <div class="container">
+        <h1>Students Enrolled in {{ course.title }}</h1>
+        <ul>
+            {% for enrollment in enrollments %}
+                <li>{{ enrollment.learner.username }} - Enrolled on {{ enrollment.enrolled_at }}</li>
+            {% endfor %}
+        </ul>
+        <a href="{% url 'instructor_dashboard' %}" class="btn btn-secondary">Back to Dashboard</a>
+    </div>
+</section>
+{% endblock %}
