@@ -7,10 +7,16 @@
 <!-- Override the nav block to remove navigation links -->
 {% endblock %}
 
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/formStyle.css' %}">
+<link rel="stylesheet" href="{% static 'css/loginStyle.css' %}">
+{% endblock %}
+
+
 {% block content %}
 <div class="form-container">
   <a href="{% url 'home' %}">
-    <img src="{% static 'enmar_logo.jpeg' %}" alt="Enmar Learning Platform Logo" class="logo">
+    <img src="{% static 'images/enmar_logo.jpeg' %}" alt="Enmar Learning Platform Logo" class="logo">
   </a>
   <h1 class="login-title">Unlock Your Potential</h1>
 
@@ -32,7 +38,3 @@
 </div>
 {% endblock %}
 
-{% block extra_css %}
-<link rel="stylesheet" href="{% static 'formStyle.css' %}">
-<link rel="stylesheet" href="{% static 'loginStyle.css' %}">
-{% endblock %}

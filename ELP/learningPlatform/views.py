@@ -1,19 +1,21 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import ListView, DetailView
-from .models import Course, Lesson, Enrollment, UserLessonCompletion, Profile
-from django.contrib.auth.forms import UserCreationForm
+from .models import Course, Lesson, Enrollment, UserLessonCompletion, Profile, User
+from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm, AuthenticationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout, login as auth_login, authenticate
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .forms import UserRegisterForm, CourseForm, UserUpdateForm, ProfileUpdateForm, DeleteCourseForm
 from django.contrib import messages
-from django.contrib.auth.forms import AuthenticationForm
+
 from django.shortcuts import get_object_or_404, redirect
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import update_session_auth_hash
-from django.contrib.auth.forms import PasswordChangeForm
+from django.views.decorators.http import require_POST
 from django.apps import apps
+from django.urls import reverse_lazy
+from django.contrib.auth.views import PasswordChangeView
 
 def home(request):
     # Implement your home view logic here
@@ -28,32 +30,29 @@ class CourseDetailView(DetailView):
     model = Course
     template_name = 'learningPlatform/course_detail.html'
     context_object_name = 'course'
-    pk_url_kwarg = 'course_id'  # Ensure the view uses course_id from the URL
+    pk_url_kwarg = 'course_id'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        
-        # Retrieve the course object based on course_id from URL
         course = self.get_object()
-        
-        # Check if the current user is enrolled in this course
         enrollment = Enrollment.objects.filter(learner=self.request.user, course=course).first()
         is_enrolled = enrollment is not None
-        
-        # Calculate progress if enrolled
+
         if is_enrolled:
             total_lessons = course.lessons.count()
             completed_lessons = UserLessonCompletion.objects.filter(user=self.request.user, lesson__course=course).count()
             progress = (completed_lessons / total_lessons) * 100 if total_lessons > 0 else 0
         else:
             progress = 0
-        
-        # Add progress and enrollment status to the context
+
         context['is_enrolled'] = is_enrolled
         context['progress'] = progress
-        
-        return context
 
+        # Add completion status for each lesson
+        completed_lesson_ids = UserLessonCompletion.objects.filter(user=self.request.user, lesson__course=course).values_list('lesson_id', flat=True)
+        context['completed_lesson_ids'] = completed_lesson_ids
+
+        return context
     
 
 
@@ -200,11 +199,22 @@ def instructor_dashboard(request):
         return redirect('course_list')  # Redirect learners to course list
 
 
-@login_required
+
+
 def course_students(request, course_id):
-    course = get_object_or_404(Course, pk=course_id, instructor=request.user)
-    enrollments = Enrollment.objects.filter(course=course)
-    return render(request, 'learningPlatform/course_students.html', {'course': course, 'enrollments': enrollments})
+    course = get_object_or_404(Course, pk=course_id)
+    enrollments = course.enrollments.all()  # Fetch enrollments related to the course
+
+    context = {
+        'course': course,
+        'enrollments': enrollments,
+    }
+    return render(request, 'learningPlatform/course_students.html', context)
+# @login_required
+# def course_students(request, course_id):
+#     course = get_object_or_404(Course, pk=course_id, instructor=request.user)
+#     enrollments = Enrollment.objects.filter(course=course)
+#     return render(request, 'learningPlatform/course_students.html', {'course': course, 'enrollments': enrollments})
 
 
 # @login_required
@@ -336,11 +346,11 @@ def next_lesson(request, course_pk, pk):
         return redirect('course_completed')
 
 
-@login_required
-def mark_completed(request, lesson_id):
-    lesson = get_object_or_404(Lesson, id=lesson_id)
-    request.user.profile.completed_lessons.add(lesson)
-    return redirect('lesson_detail', lesson.pk)
+# @login_required
+# def mark_completed(request, lesson_id):
+#     lesson = get_object_or_404(Lesson, id=lesson_id)
+#     request.user.profile.completed_lessons.add(lesson)
+#     return redirect('lesson_detail', lesson.pk)
 
 
 @login_required
@@ -382,3 +392,84 @@ def mark_completed(request, lesson_id):
 
 def course_completed(request):
     return render(request, 'learningPlatform/course_completed.html')
+
+
+@csrf_exempt
+def mark_lesson_completed(request, lesson_id):
+    if request.method == 'POST':
+        lesson = get_object_or_404(Lesson, id=lesson_id)
+        user = request.user
+
+        # Check if the lesson is already marked as completed
+        completion, created = UserLessonCompletion.objects.get_or_create(user=user, lesson=lesson)
+
+        return JsonResponse({'status': 'completed'})
+    return JsonResponse({'status': 'error'}, status=400)
+
+
+# @require_POST
+# def delete_lesson(request):
+#     lesson_id = request.POST.get('lesson_id')
+#     lesson = get_object_or_404(Lesson, id=lesson_id)
+#     lesson.delete()
+#     return JsonResponse({'success': True})
+
+@require_POST
+def delete_lesson(request):
+    import json
+    data = json.loads(request.body)
+    lesson_id = data.get('lesson_id')
+    try:
+        lesson = get_object_or_404(Lesson, id=lesson_id)
+        lesson.delete()
+        return JsonResponse({'success': True})
+    except Exception as e:
+        return JsonResponse({'success': False, 'error': str(e)})
+
+@require_POST
+def remove_student(request):
+    import json
+    data = json.loads(request.body)
+    student_id = data.get('student_id')
+    try:
+        enrollment = get_object_or_404(Enrollment, learner_id=student_id)
+        enrollment.delete()
+        return JsonResponse({'success': True})
+    except Exception as e:
+        return JsonResponse({'success': False, 'error': str(e)})
+
+@require_POST
+def message_student(request):
+    import json
+    data = json.loads(request.body)
+    student_id = data.get('student_id')
+    message = data.get('message')
+    try:
+        student = get_object_or_404(User, id=student_id)
+        # Logic to send a message to the student
+        # For example, you might use an email service or save the message in a database
+        return JsonResponse({'success': True})
+    except Exception as e:
+        return JsonResponse({'success': False, 'error': str(e)})
+    
+
+def course_detail(request, course_id):
+    course = get_object_or_404(Course, pk=course_id)
+    lessons = course.lessons.all()
+    completed_lessons = UserLessonCompletion.objects.filter(user=request.user, lesson__in=lessons).count()
+    total_lessons = lessons.count()
+    progress = (completed_lessons / total_lessons) * 100 if total_lessons > 0 else 0
+
+    context = {
+        'course': course,
+        'progress': progress,
+        'is_enrolled': request.user in course.students.all(),  # Assuming you have a way to check enrollment
+    }
+
+    return render(request, 'learningPlatform/course_detail.html', context)
+
+
+class CustomPasswordChangeView(LoginRequiredMixin, PasswordChangeView):
+    form_class = PasswordChangeForm
+    success_url = reverse_lazy('password_change_done')
+    template_name = 'learningPlatform/change_password.html'

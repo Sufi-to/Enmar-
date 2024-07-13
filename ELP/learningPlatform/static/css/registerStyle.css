@@ -4,7 +4,7 @@ body {
     color: #ffffff; /* White text */
     font-family: 'Poppins', sans-serif; /* Modern font */
     line-height: 1.6;
-    background-image: url('registerBackground.jpg'); /* Update this path */
+    background-image: url('../images/registerBackground.jpg'); /* Update this path */
     background-size: cover;
     background-repeat: no-repeat;
     background-attachment: fixed; /* Parallax effect */

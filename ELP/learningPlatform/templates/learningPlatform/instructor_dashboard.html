@@ -3,23 +3,30 @@
 {% block title %}Command Your Learning Galaxy, Instructor!{% endblock %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'instructor_dashboard.css' %}">
+<link rel="stylesheet" href="{% static 'css/instructor_dashboard.css' %}">
 {% endblock %}
 
 {% block extra_js %}
 <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-<script src="{% static 'markdown_support.js' %}"></script>
+<script src="{% static 'js/markdown_support.js' %}"></script>
 {% endblock %}
 
 {% block nav %}
 <header>
     <div class="logo">
-        <img src="{% static 'enmar_logo.jpeg' %}" alt="Enmar Logo">
+        <img src="{% static 'images/enmar_logo.jpeg' %}" alt="Enmar Logo">
     </div>
-    <nav class="navigation">
-        <a href="{% url 'home' %}" class="nav-btn">Home</a>
-        <a href="{% url 'logout' %}" class="nav-btn">Logout</a>
-        <a href="{% url 'profile' %}" class="nav-btn">{{ user.username }}</a>
+    <nav class="navigation-profile">
+        <div class="navigation">
+            <a href="{% url 'home' %}" class="nav-btn">Home</a>
+            <a href="{% url 'logout' %}" class="nav-btn">Logout</a>
+            <div class="profile">
+                <a href="{% url 'profile' %}">
+                    <img src="{{ user.profile.image.url }}" alt="Student Profile" class="profile-pic">
+                    <span>{{ user.username }}</span>
+                </a>
+            </div>
+        </div>
     </nav>
 </header>
 {% endblock %}

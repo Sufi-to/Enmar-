@@ -28,9 +28,14 @@ urlpatterns = [
     path('add_lesson/', views.add_lesson, name='add_lesson'),
     path('mark_as_completed/<int:lesson_id>/', views.mark_as_completed, name='mark_as_completed'),
     path('lesson/<int:lesson_id>/complete/', views.mark_completed, name='mark_completed'),
-    path('change_password/', views.change_password, name='change_password'),
+    # path('change_password/', views.change_password, name='change_password'),
     path('delete_course/', views.delete_course, name='delete_course'),
     path('course_completed/', views.course_completed, name='course_completed'),
+    path('delete-lesson/', views.delete_lesson, name='delete_lesson'),
+    path('remove-student/', views.remove_student, name='remove_student'),
+    path('message-student/', views.message_student, name='message_student'),
+    path('change_password/', views.CustomPasswordChangeView.as_view(), name='change_password'),
+
 ]
 
 

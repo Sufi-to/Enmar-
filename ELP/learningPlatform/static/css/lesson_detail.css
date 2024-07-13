@@ -1,11 +1,9 @@
-/* lesson_detail.css */
-
 body {
     background: linear-gradient(to right, #000, #4e54c8);
     color: #fff;
     font-family: 'Poppins', sans-serif;
     margin: 0;
-    padding-top: 60px;
+    padding-top: 80px; /* Adjusted for header height */
     box-sizing: border-box;
 }
 
@@ -15,11 +13,27 @@ header {
     left: 0;
     width: 100%;
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
     align-items: center;
     padding: 1rem 2rem;
     background: rgba(17, 17, 17, 0.9);
     z-index: 1000;
+}
+
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.logo-link {
+    display: flex;
+    align-items: center;
+}
+
+.enmar-logo {
+    height: 50px;
 }
 
 .navigation {
@@ -39,6 +53,24 @@ header {
 
 .nav-btn:hover {
     background: #8e44be;
+}
+
+.profile {
+    display: flex;
+    align-items: center;
+    margin-left: 1rem;
+}
+
+.profile-pic {
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    margin-right: 0.5rem;
+}
+
+.profile span {
+    color: #fff;
+    font-size: 1rem;
 }
 
 .container {
@@ -144,4 +176,51 @@ header {
         width: 100%;
         text-align: center;
     }
+}
+
+
+/* Style for the profile container */
+.navigation-profile .profile {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 5px 10px;
+
+    background: linear-gradient(135deg, #6b42f4, #1b1b1b);
+    transition: background 0.3s ease;
+}
+
+.navigation-profile .profile a {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: white;
+    font-size: 1.1em;
+}
+
+.navigation-profile .profile:hover {
+    background: linear-gradient(135deg, #1b1b1b, #6b42f4);
+}
+
+/* Style for the profile picture */
+.navigation-profile .profile-pic {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 2px solid white;
+    transition: transform 0.3s ease;
+}
+
+.navigation-profile .profile a:hover .profile-pic {
+    transform: scale(1.1);
+}
+
+/* Style for the username */
+.navigation-profile .profile span {
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+.navigation-profile .profile a:hover span {
+    color: #ddd;
 }
