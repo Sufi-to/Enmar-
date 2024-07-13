@@ -40,3 +40,21 @@ class EnrollmentForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         self.fields['learner'].queryset = User.objects.filter(is_learner=True)
 
+
+class UserUpdateForm(forms.ModelForm):
+    email = forms.EmailField()
+    
+    class Meta:
+        model = User
+        fields = ['username', 'email']
+        
+
+class ProfileUpdateForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = ['image']
+
+class DeleteCourseForm(forms.Form):
+    course = forms.ModelChoiceField(queryset=Course.objects.all(), empty_label="Select a Course", required=True)
+
+        
