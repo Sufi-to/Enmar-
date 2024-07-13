@@ -66,7 +66,7 @@ We welcome contributions to Enmar! To contribute:
 5) Submit a pull request.
 
 ## Licensing
-This project is licensed under the MIT License - see the LICENSE file for details.
+We will look at licensing laws first.
 
 ## Screenshots
 
