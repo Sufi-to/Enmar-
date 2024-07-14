@@ -22,7 +22,6 @@
                 <li><a href="{% url 'register' %}" class="register-btn">Register</a></li>
                 <li><a href="{% url 'login' %}" class="login-btn">Login</a></li>
             {% else %}
-                <li><a href="{% url 'profile' %}" class="profile-btn">{{user.username}}</a></li>
                 <li><a href="{% url 'logout' %}" class="logout-btn">Logout</a></li>
                 <li class="profile">
                     <a href="{% url 'profile' %}" class="profile-link">
@@ -47,7 +46,7 @@
 <section id="video" class="video">
     <h2>Discover Enmar</h2>
     <video controls>
-        <source src="{% static 'images/promo_video.mp4' %}" type="video/mp4">
+        <source src="{% static 'videos/enmar (1080p).mp4' %}" type="video/mp4">
         Your browser does not support the video tag.
     </video>
 </section>

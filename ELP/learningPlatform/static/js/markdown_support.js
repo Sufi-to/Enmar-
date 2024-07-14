@@ -1,10 +1,22 @@
 document.addEventListener('DOMContentLoaded', function() {
+    console.log('DOM content loaded');
     const textarea = document.getElementById('description');
     const preview = document.getElementById('markdown-preview');
+    
+    console.log('Textarea:', textarea);
+    console.log('Preview:', preview);
 
-    textarea.addEventListener('input', function() {
+    function updatePreview() {
+        console.log('Updating preview');
         const markdownText = textarea.value;
-        const html = marked(markdownText);
+        console.log('Markdown text:', markdownText);
+        const html = marked.parse(markdownText);
+        console.log('Parsed HTML:', html);
         preview.innerHTML = html;
-    });
+    }
+
+    textarea.addEventListener('input', updatePreview);
+
+    // Initial preview
+    updatePreview();
 });

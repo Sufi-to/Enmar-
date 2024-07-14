@@ -123,7 +123,7 @@ nav a:hover {
 video {
     display: block;
     margin: 0 auto;
-    max-width: 100%;
+    max-width: 70%;
     height: auto;
 }
 
@@ -347,4 +347,3 @@ footer .social-media img {
         max-width: calc(45% - 30px);
     }
 }
-

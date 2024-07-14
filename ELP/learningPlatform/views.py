@@ -26,6 +26,7 @@ class CourseListView(ListView):
     template_name = 'learningPlatform/course_list.html'
     context_object_name = 'courses'
 
+
 class CourseDetailView(DetailView):
     model = Course
     template_name = 'learningPlatform/course_detail.html'
