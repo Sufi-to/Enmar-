@@ -7,7 +7,7 @@
 Enmar is an innovative e-learning platform designed to provide high-quality education to students in Eritrea and Ethiopia. Our goal is to create an engaging and user-friendly environment where students can access a variety of courses and lessons. 
 
 ### Deployed Website
-Check out the live version of Enmar: [Enmar Deployed Site](https://tomeverywhere.pythonanywhere.com/learningPlatform/)
+Check out the live version of Enmar: [Enmar Deployed Site](https://enmar.pythonanywhere.com/learningPlatform/)
 
 ### Final Project Blog Article
 Read more about the development and features of Enmar: [Final Project Blog Article](https://medium.com/@nhagos2000/empowering-self-learning-building-an-e-learning-platform-for-ethiopian-and-eritrean-learners-331aab09b8af)
